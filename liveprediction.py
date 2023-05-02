@@ -11,7 +11,7 @@ with open("./classes.txt", "r") as f:
 
 vc = cv2.VideoCapture(0)
 
-net = cv2.dnn.readNet("./yolov4-custom_last.weights", "./yolov4-custom.cfg")
+net = cv2.dnn.readNet("./custom-yolov4-tiny-detector_best.weights", "./yolov4-custom-uday.cfg")
 net.setPreferableBackend(cv2.dnn.DNN_BACKEND_CUDA)
 net.setPreferableTarget(cv2.dnn.DNN_TARGET_CUDA_FP16)
 
