@@ -18,23 +18,23 @@ net.setPreferableTarget(cv2.dnn.DNN_TARGET_CUDA_FP16)
 model = cv2.dnn_DetectionModel(net)
 model.setInputParams(size=(416, 416), scale=1/255, swapRB=True)
 
-while cv2.waitKey(1) < 1:
-    (grabbed, frame) = vc.read()
-    if not grabbed:
-        exit()
+# Capture an image from the camera
+ret, frame = vc.read()
 
-    start = time.time()
-    classes, scores, boxes = model.detect(frame, CONFIDENCE_THRESHOLD, NMS_THRESHOLD)
-    end = time.time()
+# Perform object detection on the image
+classes, scores, boxes = model.detect(frame, CONFIDENCE_THRESHOLD, NMS_THRESHOLD)
 
-    start_drawing = time.time()
-    for (classid, score, box) in zip(classes, scores, boxes):
-        color = COLORS[int(classid) % len(COLORS)]
-        label = "%s : %f" % (class_names[classid], score)
-        cv2.rectangle(frame, box, color, 2)
-        cv2.putText(frame, label, (box[0], box[1] - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
-    end_drawing = time.time()
-    
-    fps_label = "FPS: %.2f (excluding drawing time of %.2fms)" % (1 / (end - start), (end_drawing - start_drawing) * 1000)
-    cv2.putText(frame, fps_label, (0, 25), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2)
-    cv2.imshow("detections", frame)
+# Draw bounding boxes and labels on the image
+for (classid, score, box) in zip(classes, scores, boxes):
+    color = COLORS[int(classid) % len(COLORS)]
+    label = "%s : %f" % (class_names[classid], score)
+    cv2.rectangle(frame, box, color, 2)
+    cv2.putText(frame, label, (box[0], box[1] - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
+
+# Display the image with detections
+cv2.imshow("detections", frame)
+cv2.waitKey(0)
+
+# Release the resources
+cv2.destroyAllWindows()
+vc.release()

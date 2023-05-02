@@ -41,7 +41,7 @@ while cv2.waitKey(1) < 1:
         label = "%s : %f" % (class_names[classid], score)
         cv2.rectangle(frame, box, color, 2)
         cv2.putText(frame, label, (box[0], box[1] - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
-        if class_names[classid] in ["Bread","CardBoard","Metal Can","Plastic Bag"]:
+        if class_names[classid] in ["Bread","Cardboard","Metal Can","Plastic Bag"]:
             detected_class = class_names[classid]
     end_drawing = time.time()
 
@@ -55,4 +55,3 @@ while cv2.waitKey(1) < 1:
     fps_label = "FPS: %.2f (excluding drawing time of %.2fms)" % (1 / (end - start), (end_drawing - start_drawing) * 1000)
     cv2.putText(frame, fps_label, (0, 25), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2)
     cv2.imshow("detections", frame)
-
